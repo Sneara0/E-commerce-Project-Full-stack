@@ -12,11 +12,11 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-pink-100 to-purple-100 p-4 sm:p-6 md:p-10 overflow-hidden relative">
       
-      {/* Decorative Animated Circles */}
+      
       <div className="absolute -top-20 -left-20 w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30 animate-spin-slow"></div>
       <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-300 rounded-full blur-3xl opacity-40 animate-ping-slow"></div>
 
-      {/* Header */}
+
       <div className="max-w-4xl mx-auto text-center mb-12 relative z-10">
         <h1 className="text-5xl md:text-6xl font-extrabold text-gray-800 mb-6 drop-shadow-lg animate-bounce">
           About Mehrima's Shop
@@ -28,7 +28,7 @@ export default function About() {
           Our mission is to offer stylish, comfortable products that meet our customers’ needs while ensuring excellent service and fast delivery.
         </p>
 
-        {/* CTA Button */}
+     
         <Link
           to="/products"
           className="inline-block mt-4 px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold rounded-full shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 animate-bounce"
