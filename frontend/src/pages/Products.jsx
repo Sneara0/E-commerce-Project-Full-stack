@@ -1,9 +1,14 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import products from "../data/products";
+import { fetchProducts } from "../api/productApi"; // <-- new API file
 
 export default function Products() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts().then(data => setProducts(data));
+  }, []);
+
   return (
     <div className="bg-gray-100 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

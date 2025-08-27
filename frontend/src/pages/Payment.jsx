@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import { createCheckoutSession } from "../api/productApi";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -21,24 +21,16 @@ function CheckoutForm() {
     setMessage("");
 
     try {
-      // 1️⃣ Backend থেকে PaymentIntent create
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/payment/create-payment-intent`,
-        { amount: totalPrice }
-      );
-
+      const { data } = await createCheckoutSession({ amount: totalPrice });
       const clientSecret = data.clientSecret;
 
-      // 2️⃣ Card info submit
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: { card: elements.getElement(CardElement) },
       });
 
-      if (result.error) {
-        setMessage(result.error.message);
-      } else if (result.paymentIntent.status === "succeeded") {
+      if (result.error) setMessage(result.error.message);
+      else if (result.paymentIntent.status === "succeeded")
         setMessage("✅ Payment Successful!");
-      }
     } catch (err) {
       setMessage("❌ " + err.message);
     } finally {
@@ -49,9 +41,7 @@ function CheckoutForm() {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-4">Payment</h2>
-      <div className="border p-3 rounded mb-4">
-        <CardElement />
-      </div>
+      <div className="border p-3 rounded mb-4"><CardElement /></div>
       <button
         type="submit"
         disabled={!stripe || loading}
@@ -65,9 +55,5 @@ function CheckoutForm() {
 }
 
 export default function Payment() {
-  return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm />
-    </Elements>
-  );
+  return <Elements stripe={stripePromise}><CheckoutForm /></Elements>;
 }
