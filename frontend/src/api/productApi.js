@@ -22,7 +22,7 @@ export const fetchProductById = async (id) => {
   }
 };
 
-// ✅ Stripe Checkout Session তৈরি করার জন্য নতুন ফাংশন
+// ✅ Stripe Checkout Session তৈরি করার জন্য
 export const createCheckoutSession = async (cartItems) => {
   try {
     const res = await fetch(`${API_URL}/api/payment/create-checkout-session`, {
