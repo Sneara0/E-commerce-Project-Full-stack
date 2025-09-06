@@ -11,6 +11,7 @@ export default function ProductCard({ product }) {
           src={product.image}
           alt={product.name}
           className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy" 
         />
       </div>
 
@@ -18,7 +19,9 @@ export default function ProductCard({ product }) {
         <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">
           {product.name}
         </h3>
-        <p className="text-gray-600 font-medium mb-4">${product.price.toFixed(2)}</p>
+        <p className="text-gray-600 font-medium mb-4">
+          ${product.price.toFixed(2)}
+        </p>
 
         <button
           onClick={() => addToCart(product)}

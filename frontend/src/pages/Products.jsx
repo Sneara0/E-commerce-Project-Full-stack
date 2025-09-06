@@ -4,9 +4,12 @@ import { fetchProducts } from "../api/productApi";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts().then((data) => setProducts(data));
+    fetchProducts()
+      .then((data) => setProducts(data))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -16,17 +19,26 @@ export default function Products() {
           Our Products
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.length > 0 ? (
-            products.map((product) => (
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-72 bg-gray-200 rounded-xl animate-pulse"
+              ></div>
+            ))}
+          </div>
+        ) : products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
-            ))
-          ) : (
-            <p className="text-center col-span-full text-gray-600">
-              No products found.
-            </p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center col-span-full text-gray-600">
+            No products found.
+          </p>
+        )}
       </div>
     </div>
   );
